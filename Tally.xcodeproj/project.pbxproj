@@ -19,6 +19,7 @@
 		495CB4C7E5E53D9F4441D5BA /* MaterialEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B628A606FD1510EF531572FC /* MaterialEditView.swift */; };
 		6C7FCF7589604BAB92582AB0 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10489C64EA1377EEC3D0833E /* Memo.swift */; };
 		71C2C0EB5D75A04E827B8209 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4405A9E7FF6C706CDD79E71B /* AppSettings.swift */; };
+		71FD1D84342EEBA6F0AA46CA /* DailyStudyLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3583FFE79F2443D2C3B68486 /* DailyStudyLogView.swift */; };
 		79DF45EC2C35282C1F0F2C6E /* Qualification.swift in Sources */ = {isa = PBXBuildFile; fileRef = A151098FC7BEB07A05F3220F /* Qualification.swift */; };
 		805F8E734965864110754965 /* StreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A829042FFCB7527C152116C /* StreakView.swift */; };
 		917D462F542D8E7FAA3F9473 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342E892EBE5BEB778A07EE4 /* HomeView.swift */; };
@@ -28,6 +29,7 @@
 		B2A53A575B4701E74896A2B4 /* StudyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C52EBB3F0E81C12C1E8EC4 /* StudyLog.swift */; };
 		B8F118CAF35FA8B7442A84B8 /* QualificationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF684D90E17EA3F056137355 /* QualificationEditView.swift */; };
 		C93649C4AA10EBDCBEB1FC93 /* MemoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1756A43501A45998F7207AC7 /* MemoListView.swift */; };
+		CD10B25C8A7B59023774C557 /* StudyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F4600D4FF64E6E233DF3E9 /* StudyCalendarView.swift */; };
 		D2D47FE492168B5BD5332232 /* TallyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C459C89EA7705BE5561E7FB8 /* TallyApp.swift */; };
 		D7EE5F4D73DF8AC3CA326A7A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FCE09AE18EE3B81AA586A /* MainTabView.swift */; };
 		D9B4DE43DBD4440F48632E65 /* MemoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C7B9C1D0C68186C501B898 /* MemoViewModel.swift */; };
@@ -41,6 +43,7 @@
 		10489C64EA1377EEC3D0833E /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		1756A43501A45998F7207AC7 /* MemoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListView.swift; sourceTree = "<group>"; };
 		1FBCC93C895D5DAAF35E7E33 /* Tally.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tally.entitlements; sourceTree = "<group>"; };
+		3583FFE79F2443D2C3B68486 /* DailyStudyLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStudyLogView.swift; sourceTree = "<group>"; };
 		3A829042FFCB7527C152116C /* StreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakView.swift; sourceTree = "<group>"; };
 		3CFE559433171D1AA03997B3 /* QualificationManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualificationManagementView.swift; sourceTree = "<group>"; };
 		3DE46420EF81B784117986E7 /* MaterialProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialProgressView.swift; sourceTree = "<group>"; };
@@ -50,6 +53,7 @@
 		5092567AFDF3AB009FB81884 /* Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
 		5404C4AD82109317F796EAA4 /* DailyQuotaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuotaView.swift; sourceTree = "<group>"; };
 		6342E892EBE5BEB778A07EE4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		67F4600D4FF64E6E233DF3E9 /* StudyCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyCalendarView.swift; sourceTree = "<group>"; };
 		74401E97C62534DACB7AD673 /* HeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatmapView.swift; sourceTree = "<group>"; };
 		75C7B9C1D0C68186C501B898 /* MemoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewModel.swift; sourceTree = "<group>"; };
 		8DF8182A8171176884646686 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -168,9 +172,11 @@
 		DC39752DA1AA31D3495721DE /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				3583FFE79F2443D2C3B68486 /* DailyStudyLogView.swift */,
 				74401E97C62534DACB7AD673 /* HeatmapView.swift */,
 				6342E892EBE5BEB778A07EE4 /* HomeView.swift */,
 				3DE46420EF81B784117986E7 /* MaterialProgressView.swift */,
+				67F4600D4FF64E6E233DF3E9 /* StudyCalendarView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -283,6 +289,7 @@
 				143E40582B3F9215A84AED5A /* ContentView.swift in Sources */,
 				28359393DEC694909A8A10F6 /* CountdownView.swift in Sources */,
 				2E26F41CA2B4FEFF32B279F0 /* DailyQuotaView.swift in Sources */,
+				71FD1D84342EEBA6F0AA46CA /* DailyStudyLogView.swift in Sources */,
 				3F477E336DC1213A26DCF05D /* HeatmapView.swift in Sources */,
 				917D462F542D8E7FAA3F9473 /* HomeView.swift in Sources */,
 				91B1FAC35423447823DC97F6 /* HomeViewModel.swift in Sources */,
@@ -303,6 +310,7 @@
 				F3F482C0B348B8EE683E9A9F /* QualificationViewModel.swift in Sources */,
 				FF6C3E328548A7270D83C745 /* SettingsView.swift in Sources */,
 				805F8E734965864110754965 /* StreakView.swift in Sources */,
+				CD10B25C8A7B59023774C557 /* StudyCalendarView.swift in Sources */,
 				B2A53A575B4701E74896A2B4 /* StudyLog.swift in Sources */,
 				D2D47FE492168B5BD5332232 /* TallyApp.swift in Sources */,
 			);

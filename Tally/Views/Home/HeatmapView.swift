@@ -3,10 +3,12 @@ import SwiftUI
 struct HeatmapView: View {
     let data: [Date: Int]
     let months: Int
+    let onTap: () -> Void
     
-    init(data: [Date: Int], months: Int = 4) {
+    init(data: [Date: Int], months: Int = 4, onTap: @escaping () -> Void = {}) {
         self.data = data
         self.months = months
+        self.onTap = onTap
     }
     
     private let cellSize: CGFloat = 12
@@ -18,7 +20,6 @@ struct HeatmapView: View {
     private var dateRange: (start: Date, end: Date) {
         let today = calendar.startOfDay(for: Date())
         let start = calendar.date(byAdding: .month, value: -months, to: today) ?? today
-        // 週の月曜日に揃える
         let weekday = calendar.component(.weekday, from: start)
         let daysToMonday = (weekday == 1) ? 6 : weekday - 2
         let adjustedStart = calendar.date(byAdding: .day, value: -daysToMonday, to: start) ?? start
@@ -65,13 +66,18 @@ struct HeatmapView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("学習記録")
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .foregroundStyle(.secondary)
+            HStack {
+                Text("学習記録")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Image(systemName: "calendar")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             
             HStack(alignment: .top, spacing: cellSpacing) {
-                // 曜日ラベル
                 VStack(spacing: cellSpacing) {
                     ForEach(0..<7, id: \.self) { i in
                         Text(weekDayLabels[i])
@@ -81,7 +87,6 @@ struct HeatmapView: View {
                     }
                 }
                 
-                // ヒートマップ本体
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: cellSpacing) {
                         ForEach(0..<weeks.count, id: \.self) { weekIndex in
@@ -106,5 +111,8 @@ struct HeatmapView: View {
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+        .onTapGesture {
+            onTap()
+        }
     }
 }

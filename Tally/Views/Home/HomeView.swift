@@ -1,12 +1,18 @@
 import SwiftUI
 import SwiftData
 
+extension Date: @retroactive Identifiable {
+    public var id: TimeInterval { timeIntervalSince1970 }
+}
+
 struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
     let qualificationVM: QualificationViewModel
     @State private var viewModel: HomeViewModel?
     @State private var showAddMaterial = false
     @State private var editingMaterial: Material?
+    @State private var showCalendar = false
+    @State private var selectedDate: Date?
     
     private var qualification: Qualification? {
         qualificationVM.selectedQualification
@@ -44,6 +50,21 @@ struct HomeView: View {
             .sheet(item: $editingMaterial) { material in
                 MaterialEditView(material: material) { name, total, unit, quota in
                     viewModel?.updateMaterial(material, name: name, totalAmount: total, unit: unit, dailyQuota: quota)
+                }
+            }
+            .sheet(isPresented: $showCalendar) {
+                if let viewModel {
+                    StudyCalendarView(heatmapData: viewModel.heatmapData()) { date in
+                        showCalendar = false
+                        selectedDate = date
+                    }
+                }
+            }
+            .sheet(item: $selectedDate) { date in
+                if let viewModel {
+                    DailyStudyLogView(date: date, materials: viewModel.materials) {
+                        viewModel.load(for: qualification)
+                    }
                 }
             }
         }
@@ -122,7 +143,9 @@ struct HomeView: View {
                     weeklyTargetDays: qualification?.weeklyTargetDays ?? 4
                 )
                 
-                HeatmapView(data: viewModel.heatmapData())
+                HeatmapView(data: viewModel.heatmapData()) {
+                    showCalendar = true
+                }
             }
             .padding()
         }

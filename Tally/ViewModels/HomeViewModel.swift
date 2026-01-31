@@ -36,7 +36,7 @@ final class HomeViewModel {
     }
     
     func fetchStudyLogs() {
-        guard let qId = selectedQualification?.id else {
+        guard selectedQualification != nil else {
             studyLogs = []
             return
         }
