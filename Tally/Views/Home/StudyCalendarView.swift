@@ -145,6 +145,24 @@ struct StudyCalendarView: View {
                 Spacer()
             }
             .padding(.top)
+            .gesture(
+                DragGesture()
+                    .onEnded { value in
+                        if value.translation.width < -50 {
+                            let nextMonth = calendar.date(byAdding: .month, value: 1, to: displayedMonth) ?? displayedMonth
+                            let nextMonthStart = calendar.date(from: calendar.dateComponents([.year, .month], from: nextMonth))!
+                            if nextMonthStart <= today {
+                                withAnimation {
+                                    displayedMonth = nextMonth
+                                }
+                            }
+                        } else if value.translation.width > 50 {
+                            withAnimation {
+                                displayedMonth = calendar.date(byAdding: .month, value: -1, to: displayedMonth) ?? displayedMonth
+                            }
+                        }
+                    }
+            )
             .navigationTitle("学習カレンダー")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

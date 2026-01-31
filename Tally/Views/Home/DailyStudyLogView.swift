@@ -10,6 +10,8 @@ struct DailyStudyLogView: View {
     let onUpdate: () -> Void
     
     @State private var logs: [StudyLog] = []
+    @State private var deleteTarget: (materialId: UUID, materialName: String, totalAmount: Int)?
+    @State private var showDeleteConfirm = false
     
     private var calendar: Calendar { Calendar.current }
     
@@ -20,20 +22,26 @@ struct DailyStudyLogView: View {
         return formatter.string(from: date)
     }
     
-    private var isToday: Bool {
-        calendar.isDateInToday(date)
+    // 教材ごとに合算したデータ
+    private var groupedLogs: [(materialId: UUID, material: Material?, totalAmount: Int)] {
+        let grouped = Dictionary(grouping: logs, by: \.materialId)
+        return grouped.map { (materialId, logs) in
+            let total = logs.reduce(0) { $0 + $1.amount }
+            let material = materials.first { $0.id == materialId }
+            return (materialId: materialId, material: material, totalAmount: total)
+        }
+        .sorted { ($0.material?.name ?? "") < ($1.material?.name ?? "") }
     }
     
     var body: some View {
         NavigationStack {
             List {
-                // 既存の記録
-                if !logs.isEmpty {
+                // 既存の記録（合算表示）
+                if !groupedLogs.isEmpty {
                     Section("この日の記録") {
-                        ForEach(logs, id: \.id) { log in
-                            logRow(log: log)
+                        ForEach(groupedLogs, id: \.materialId) { entry in
+                            groupedLogRow(entry: entry)
                         }
-                        .onDelete(perform: deleteLogs)
                     }
                 }
                 
@@ -54,48 +62,59 @@ struct DailyStudyLogView: View {
                     }
                 }
             }
+            .alert("記録を削除", isPresented: $showDeleteConfirm) {
+                Button("削除", role: .destructive) {
+                    if let target = deleteTarget {
+                        deleteLogsForMaterial(materialId: target.materialId, totalAmount: target.totalAmount)
+                    }
+                }
+                Button("キャンセル", role: .cancel) {}
+            } message: {
+                if let target = deleteTarget {
+                    let material = materials.first { $0.id == target.materialId }
+                    let unitName = material?.unit ?? ""
+                    let isTime = unitName == "時間"
+                    let amountText = isTime ? formatMinutes(target.totalAmount) : "\(target.totalAmount) \(unitName)"
+                    Text("\(target.materialName)の\(amountText)分の記録を削除しますか？")
+                }
+            }
             .onAppear {
                 fetchLogs()
             }
         }
     }
     
-    // MARK: - Log Row
+    // MARK: - Grouped Log Row
     
-    private func logRow(log: StudyLog) -> some View {
-        let material = materials.first { $0.id == log.materialId }
-        let unitName = material?.unit ?? ""
+    private func groupedLogRow(entry: (materialId: UUID, material: Material?, totalAmount: Int)) -> some View {
+        let unitName = entry.material?.unit ?? ""
         let isTime = unitName == "時間"
+        let amountText = isTime ? formatMinutes(entry.totalAmount) : "\(entry.totalAmount) \(unitName)"
         
         return HStack {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(material?.name ?? "不明な教材")
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                Text(isTime ? formatMinutes(log.amount) : "\(log.amount) \(unitName)")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+            Text(entry.material?.name ?? "不明な教材")
+                .font(.subheadline)
+                .fontWeight(.medium)
             
             Spacer()
             
-            HStack(spacing: 8) {
-                Button {
-                    adjustLog(log, by: isTime ? -5 : -1)
-                } label: {
-                    Image(systemName: "minus.circle")
-                        .foregroundStyle(.red)
-                }
-                .buttonStyle(.plain)
-                
-                Button {
-                    adjustLog(log, by: isTime ? 5 : 1)
-                } label: {
-                    Image(systemName: "plus.circle")
-                        .foregroundStyle(.blue)
-                }
-                .buttonStyle(.plain)
+            Text(amountText)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            
+            Button {
+                deleteTarget = (
+                    materialId: entry.materialId,
+                    materialName: entry.material?.name ?? "不明な教材",
+                    totalAmount: entry.totalAmount
+                )
+                showDeleteConfirm = true
+            } label: {
+                Image(systemName: "trash")
+                    .font(.caption)
+                    .foregroundStyle(.red)
             }
+            .buttonStyle(.plain)
         }
     }
     
@@ -126,11 +145,7 @@ struct DailyStudyLogView: View {
         Button {
             let generator = UIImpactFeedbackGenerator(style: .light)
             generator.impactOccurred()
-            addLog(materialId: material.id, amount: amount)
-            // 今日の場合はMaterialの進捗も更新
-            if isToday {
-                material.currentProgress = min(material.currentProgress + amount, material.totalAmount)
-            }
+            addLog(material: material, amount: amount)
         } label: {
             Text(title)
                 .font(.caption)
@@ -158,28 +173,35 @@ struct DailyStudyLogView: View {
         logs = allLogs.filter { materialIds.contains($0.materialId) }
     }
     
-    private func addLog(materialId: UUID, amount: Int) {
-        let log = StudyLog(date: date, materialId: materialId, amount: amount)
+    private func addLog(material: Material, amount: Int) {
+        let log = StudyLog(date: date, materialId: material.id, amount: amount)
         modelContext.insert(log)
+        
+        // 日付に関係なく進捗を反映
+        material.currentProgress = min(material.currentProgress + amount, material.totalAmount)
+        
         try? modelContext.save()
         fetchLogs()
     }
     
-    private func adjustLog(_ log: StudyLog, by amount: Int) {
-        let newAmount = log.amount + amount
-        if newAmount <= 0 {
-            modelContext.delete(log)
-        } else {
-            log.amount = newAmount
+    private func deleteLogsForMaterial(materialId: UUID, totalAmount: Int) {
+        let targetDate = calendar.startOfDay(for: date)
+        let nextDate = calendar.date(byAdding: .day, value: 1, to: targetDate)!
+        
+        let descriptor = FetchDescriptor<StudyLog>(
+            predicate: #Predicate { $0.date >= targetDate && $0.date < nextDate && $0.materialId == materialId }
+        )
+        if let logsToDelete = try? modelContext.fetch(descriptor) {
+            for log in logsToDelete {
+                modelContext.delete(log)
+            }
         }
-        try? modelContext.save()
-        fetchLogs()
-    }
-    
-    private func deleteLogs(at offsets: IndexSet) {
-        for index in offsets {
-            modelContext.delete(logs[index])
+        
+        // 進捗から減算
+        if let material = materials.first(where: { $0.id == materialId }) {
+            material.currentProgress = max(0, material.currentProgress - totalAmount)
         }
+        
         try? modelContext.save()
         fetchLogs()
     }
