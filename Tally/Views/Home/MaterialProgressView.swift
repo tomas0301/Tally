@@ -4,6 +4,29 @@ struct MaterialProgressView: View {
     let material: Material
     let onRecord: (Int) -> Void
     
+    private var isTimeUnit: Bool {
+        material.unit == "時間"
+    }
+    
+    private var progressText: String {
+        if isTimeUnit {
+            return "\(formatMinutes(material.currentProgress)) / \(formatMinutes(material.totalAmount))"
+        }
+        return "\(material.currentProgress) / \(material.totalAmount) \(material.unit)"
+    }
+    
+    private func formatMinutes(_ minutes: Int) -> String {
+        let h = minutes / 60
+        let m = minutes % 60
+        if h > 0 && m > 0 {
+            return "\(h)時間\(m)分"
+        } else if h > 0 {
+            return "\(h)時間"
+        } else {
+            return "\(m)分"
+        }
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(material.name)
@@ -21,16 +44,25 @@ struct MaterialProgressView: View {
                     .frame(width: 40, alignment: .trailing)
                 
                 HStack(spacing: 6) {
-                    ProgressButton(title: "+1") {
-                        onRecord(1)
-                    }
-                    ProgressButton(title: "+10") {
-                        onRecord(10)
+                    if isTimeUnit {
+                        ProgressButton(title: "+5m") {
+                            onRecord(5)
+                        }
+                        ProgressButton(title: "+15m") {
+                            onRecord(15)
+                        }
+                    } else {
+                        ProgressButton(title: "+1") {
+                            onRecord(1)
+                        }
+                        ProgressButton(title: "+10") {
+                            onRecord(10)
+                        }
                     }
                 }
             }
             
-            Text("\(material.currentProgress) / \(material.totalAmount) \(material.unit)")
+            Text(progressText)
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
         }

@@ -11,7 +11,7 @@ struct MaterialEditView: View {
     @State private var unit: String = "ページ"
     @State private var dailyQuota: String = ""
     
-    private let units = ["ページ", "問"]
+    private let units = ["ページ", "問", "時間"]
     
     var isEditing: Bool {
         material != nil
@@ -23,6 +23,18 @@ struct MaterialEditView: View {
         && (Int(dailyQuota) ?? 0) > 0
     }
     
+    private var totalLabel: String {
+        unit == "時間" ? "目標時間（時間）" : "総量"
+    }
+    
+    private var quotaLabel: String {
+        unit == "時間" ? "1日のノルマ（分）" : "1日のノルマ"
+    }
+    
+    private var quotaUnit: String {
+        unit == "時間" ? "分" : unit
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -30,7 +42,7 @@ struct MaterialEditView: View {
                     TextField("教材名", text: $name)
                     
                     HStack {
-                        Text("総量")
+                        Text(totalLabel)
                         Spacer()
                         TextField("0", text: $totalAmount)
                             .keyboardType(.numberPad)
@@ -46,7 +58,7 @@ struct MaterialEditView: View {
                     .pickerStyle(.segmented)
                 }
                 
-                Section("1日のノルマ") {
+                Section(quotaLabel) {
                     HStack {
                         Text("ノルマ")
                         Spacer()
@@ -54,7 +66,7 @@ struct MaterialEditView: View {
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 100)
-                        Text(unit)
+                        Text(quotaUnit)
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -69,9 +81,15 @@ struct MaterialEditView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("保存") {
+                        let total: Int
+                        if unit == "時間" {
+                            total = (Int(totalAmount) ?? 0) * 60
+                        } else {
+                            total = Int(totalAmount) ?? 0
+                        }
                         onSave(
                             name.trimmingCharacters(in: .whitespaces),
-                            Int(totalAmount) ?? 0,
+                            total,
                             unit,
                             Int(dailyQuota) ?? 0
                         )
@@ -83,7 +101,11 @@ struct MaterialEditView: View {
             .onAppear {
                 if let material {
                     name = material.name
-                    totalAmount = String(material.totalAmount)
+                    if material.unit == "時間" {
+                        totalAmount = String(material.totalAmount / 60)
+                    } else {
+                        totalAmount = String(material.totalAmount)
+                    }
                     unit = material.unit
                     dailyQuota = String(material.dailyQuota)
                 }

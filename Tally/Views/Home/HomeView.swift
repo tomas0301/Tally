@@ -1,12 +1,16 @@
 import SwiftUI
 import SwiftData
 
-struct MainView: View {
+struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var viewModel: StudyViewModel?
+    let qualificationVM: QualificationViewModel
+    @State private var viewModel: HomeViewModel?
     @State private var showAddMaterial = false
     @State private var editingMaterial: Material?
-    @State private var showSettings = false
+    
+    private var qualification: Qualification? {
+        qualificationVM.selectedQualification
+    }
     
     var body: some View {
         NavigationStack {
@@ -21,21 +25,15 @@ struct MainView: View {
                     ProgressView()
                 }
             }
-            .navigationTitle("Tally")
+            .navigationTitle(qualification?.name ?? "Tally")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        showSettings = true
-                    } label: {
-                        Image(systemName: "gearshape")
-                    }
-                }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
                         showAddMaterial = true
                     } label: {
                         Image(systemName: "plus")
                     }
+                    .disabled(qualification == nil)
                 }
             }
             .sheet(isPresented: $showAddMaterial) {
@@ -48,25 +46,17 @@ struct MainView: View {
                     viewModel?.updateMaterial(material, name: name, totalAmount: total, unit: unit, dailyQuota: quota)
                 }
             }
-            .sheet(isPresented: $showSettings) {
-                if let viewModel {
-                    SettingsView(
-                        appSettings: viewModel.appSettings,
-                        onUpdateExamDate: { viewModel.updateExamDate($0) },
-                        onUpdateWeeklyTarget: { viewModel.updateWeeklyTargetDays($0) },
-                        onUpdateQuotaMode: { viewModel.updateQuotaCalculationMode($0) }
-                    )
-                }
-            }
         }
         .onAppear {
             if viewModel == nil {
-                viewModel = StudyViewModel(modelContext: modelContext)
+                viewModel = HomeViewModel(modelContext: modelContext)
             }
+            viewModel?.load(for: qualification)
+        }
+        .onChange(of: qualification?.id) {
+            viewModel?.load(for: qualification)
         }
     }
-    
-    // MARK: - Empty State
     
     private var emptyStateView: some View {
         VStack(spacing: 16) {
@@ -87,18 +77,14 @@ struct MainView: View {
         .padding()
     }
     
-    // MARK: - Main Content
-    
-    private func mainContentView(viewModel: StudyViewModel) -> some View {
+    private func mainContentView(viewModel: HomeViewModel) -> some View {
         ScrollView {
             VStack(spacing: 16) {
-                // 試験日カウントダウン
                 CountdownView(
                     daysUntilExam: viewModel.daysUntilExam,
-                    onSetExamDate: { showSettings = true }
+                    onSetExamDate: {}
                 )
                 
-                // 今日のノルマ
                 DailyQuotaView(
                     quotas: viewModel.materials.map { material in
                         let quota = viewModel.calculatedDailyQuota(for: material)
@@ -106,7 +92,6 @@ struct MainView: View {
                     }
                 )
                 
-                // 教材ごとの進捗バー
                 VStack(spacing: 16) {
                     ForEach(viewModel.materials, id: \.id) { material in
                         MaterialProgressView(material: material) { amount in
@@ -131,14 +116,12 @@ struct MainView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
                 
-                // ストリーク & 今週の進捗
                 StreakView(
                     streak: viewModel.currentStreak,
                     weeklyStudyDays: viewModel.weeklyStudyDays,
-                    weeklyTargetDays: viewModel.appSettings?.weeklyTargetDays ?? 4
+                    weeklyTargetDays: qualification?.weeklyTargetDays ?? 4
                 )
                 
-                // ヒートマップ
                 HeatmapView(data: viewModel.heatmapData())
             }
             .padding()

@@ -4,16 +4,18 @@ import SwiftData
 @Model
 final class Material {
     var id: UUID = UUID()
+    var qualificationId: UUID = UUID()
     var name: String = ""
     var totalAmount: Int = 0
     var currentProgress: Int = 0
-    var unit: String = "ページ"
+    var unit: String = "ページ" // "ページ" or "問" or "時間"
     var dailyQuota: Int = 0
     var order: Int = 0
     var createdAt: Date = Date()
     
-    init(name: String, totalAmount: Int, unit: String, dailyQuota: Int, order: Int = 0) {
+    init(qualificationId: UUID, name: String, totalAmount: Int, unit: String, dailyQuota: Int, order: Int = 0) {
         self.id = UUID()
+        self.qualificationId = qualificationId
         self.name = name
         self.totalAmount = totalAmount
         self.currentProgress = 0
