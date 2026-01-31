@@ -81,10 +81,17 @@ final class QualificationViewModel {
             }
         }
         
-        // 関連するMemoを削除
+        // 関連するMemoとMemoImageを削除
         let memoDescriptor = FetchDescriptor<Memo>(predicate: #Predicate { $0.qualificationId == qId })
         if let memos = try? modelContext.fetch(memoDescriptor) {
-            for memo in memos { modelContext.delete(memo) }
+            for memo in memos {
+                let memoId = memo.id
+                let imgDescriptor = FetchDescriptor<MemoImage>(predicate: #Predicate { $0.memoId == memoId })
+                if let imgs = try? modelContext.fetch(imgDescriptor) {
+                    for img in imgs { modelContext.delete(img) }
+                }
+                modelContext.delete(memo)
+            }
         }
         
         modelContext.delete(q)

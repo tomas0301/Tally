@@ -26,26 +26,45 @@ final class MemoViewModel {
     }
     
     func addMemo(qualificationId: UUID, materialId: UUID?, content: String, images: [UIImage]) {
-        var fileNames: [String] = []
-        for image in images {
-            if let name = ImageStorage.save(image: image) {
-                fileNames.append(name)
+        let memo = Memo(qualificationId: qualificationId, materialId: materialId, content: content)
+        modelContext.insert(memo)
+        
+        for (index, image) in images.enumerated() {
+            if let data = image.jpegData(compressionQuality: 0.7) {
+                let memoImage = MemoImage(memoId: memo.id, imageData: data, order: index)
+                modelContext.insert(memoImage)
             }
         }
-        let memo = Memo(qualificationId: qualificationId, materialId: materialId, content: content, imageFileNames: fileNames)
-        modelContext.insert(memo)
+        
         save()
         load(for: qualificationId)
     }
     
     func deleteMemo(_ memo: Memo) {
         let qId = memo.qualificationId
-        for fileName in memo.imageFileNames {
-            ImageStorage.delete(fileName: fileName)
+        let memoId = memo.id
+        
+        // 関連画像を削除
+        let descriptor = FetchDescriptor<MemoImage>(predicate: #Predicate { $0.memoId == memoId })
+        if let images = try? modelContext.fetch(descriptor) {
+            for img in images {
+                modelContext.delete(img)
+            }
         }
+        
         modelContext.delete(memo)
         save()
         load(for: qId)
+    }
+    
+    func imagesForMemo(_ memo: Memo) -> [Data] {
+        let memoId = memo.id
+        let descriptor = FetchDescriptor<MemoImage>(
+            predicate: #Predicate { $0.memoId == memoId },
+            sortBy: [SortDescriptor(\.order)]
+        )
+        let results = (try? modelContext.fetch(descriptor)) ?? []
+        return results.map(\.imageData)
     }
     
     func materials(for qualificationId: UUID?) -> [Material] {

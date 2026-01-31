@@ -83,7 +83,7 @@ struct MemoListView: View {
     private func memoList(viewModel: MemoViewModel) -> some View {
         List {
             ForEach(viewModel.memos, id: \.id) { memo in
-                MemoRowView(memo: memo, materials: viewModel.materials(for: qualificationId))
+                MemoRowView(memo: memo, materials: viewModel.materials(for: qualificationId), imageDataItems: viewModel.imagesForMemo(memo))
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
                             viewModel.deleteMemo(memo)

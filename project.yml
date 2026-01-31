@@ -13,6 +13,8 @@ targets:
     platform: iOS
     sources:
       - path: Tally
+    entitlements:
+      path: Tally/Tally.entitlements
     settings:
       base:
         DEVELOPMENT_TEAM: "6724KRX9W7"
@@ -24,7 +26,7 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         CURRENT_PROJECT_VERSION: "1"
-        MARKETING_VERSION: "1.0.0"
+        MARKETING_VERSION: "2.0.0"
         PRODUCT_BUNDLE_IDENTIFIER: com.tally.Tally
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor

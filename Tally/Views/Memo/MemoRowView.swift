@@ -3,6 +3,7 @@ import SwiftUI
 struct MemoRowView: View {
     let memo: Memo
     let materials: [Material]
+    let imageDataItems: [Data]
     
     private var materialName: String? {
         guard let materialId = memo.materialId else { return nil }
@@ -11,7 +12,6 @@ struct MemoRowView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            // 教材名タグ
             if let name = materialName {
                 Text(name)
                     .font(.caption)
@@ -23,18 +23,16 @@ struct MemoRowView: View {
                     .clipShape(Capsule())
             }
             
-            // 本文
             Text(memo.content)
                 .font(.body)
                 .lineLimit(5)
             
-            // 画像
-            if !memo.imageFileNames.isEmpty {
+            if !imageDataItems.isEmpty {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
-                        ForEach(memo.imageFileNames, id: \.self) { fileName in
-                            if let image = ImageStorage.load(fileName: fileName) {
-                                Image(uiImage: image)
+                        ForEach(0..<imageDataItems.count, id: \.self) { index in
+                            if let uiImage = UIImage(data: imageDataItems[index]) {
+                                Image(uiImage: uiImage)
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 80, height: 80)
@@ -45,7 +43,6 @@ struct MemoRowView: View {
                 }
             }
             
-            // 日時
             Text(memo.createdAt, format: .dateTime.month().day().hour().minute())
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
