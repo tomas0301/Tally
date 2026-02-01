@@ -54,10 +54,12 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showCalendar) {
                 if let viewModel {
-                    StudyCalendarView(heatmapData: viewModel.heatmapData()) { date in
+                    StudyCalendarView(materials: viewModel.materials, onSelectDate: { date in
                         showCalendar = false
                         selectedDate = date
-                    }
+                    }, onUpdate: {
+                        viewModel.load(for: qualification)
+                    })
                 }
             }
             .sheet(item: $selectedDate) { date in

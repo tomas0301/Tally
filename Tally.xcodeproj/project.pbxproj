@@ -34,6 +34,7 @@
 		D7EE5F4D73DF8AC3CA326A7A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FCE09AE18EE3B81AA586A /* MainTabView.swift */; };
 		D9B4DE43DBD4440F48632E65 /* MemoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C7B9C1D0C68186C501B898 /* MemoViewModel.swift */; };
 		E116762372C91847185E6769 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3A110C2438C4CC68E2AE17B /* Assets.xcassets */; };
+		E45968EF030B04DBEF497749 /* AddStudyLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6A0A0DB0ABD8695E63EE0 /* AddStudyLogView.swift */; };
 		F3F482C0B348B8EE683E9A9F /* QualificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E198B1697CA6C1851B4BAC /* QualificationViewModel.swift */; };
 		FF6C3E328548A7270D83C745 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0438430608549D75B2F651AE /* SettingsView.swift */; };
 /* End PBXBuildFile section */
@@ -42,6 +43,7 @@
 		0438430608549D75B2F651AE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		10489C64EA1377EEC3D0833E /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		1756A43501A45998F7207AC7 /* MemoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListView.swift; sourceTree = "<group>"; };
+		18E6A0A0DB0ABD8695E63EE0 /* AddStudyLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStudyLogView.swift; sourceTree = "<group>"; };
 		1FBCC93C895D5DAAF35E7E33 /* Tally.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tally.entitlements; sourceTree = "<group>"; };
 		3583FFE79F2443D2C3B68486 /* DailyStudyLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStudyLogView.swift; sourceTree = "<group>"; };
 		3A829042FFCB7527C152116C /* StreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakView.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 		DC39752DA1AA31D3495721DE /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				18E6A0A0DB0ABD8695E63EE0 /* AddStudyLogView.swift */,
 				3583FFE79F2443D2C3B68486 /* DailyStudyLogView.swift */,
 				74401E97C62534DACB7AD673 /* HeatmapView.swift */,
 				6342E892EBE5BEB778A07EE4 /* HomeView.swift */,
@@ -285,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E45968EF030B04DBEF497749 /* AddStudyLogView.swift in Sources */,
 				71C2C0EB5D75A04E827B8209 /* AppSettings.swift in Sources */,
 				143E40582B3F9215A84AED5A /* ContentView.swift in Sources */,
 				28359393DEC694909A8A10F6 /* CountdownView.swift in Sources */,

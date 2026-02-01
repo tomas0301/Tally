@@ -1,13 +1,52 @@
 import SwiftUI
+import SwiftData
 
 struct StudyCalendarView: View {
     @Environment(\.dismiss) private var dismiss
-    let heatmapData: [Date: Int]
+    @Environment(\.modelContext) private var modelContext
+    
+    let materials: [Material]
     let onSelectDate: (Date) -> Void
+    let onUpdate: () -> Void
     
     @State private var displayedMonth: Date = Date()
+    @State private var showAddLog = false
+    @State private var studyLogs: [StudyLog] = []
     
     private var calendar: Calendar { Calendar.current }
+    
+    private var today: Date {
+        calendar.startOfDay(for: Date())
+    }
+    
+    // ヒートマップ用データ
+    private var heatmapData: [Date: Int] {
+        var result: [Date: Int] = [:]
+        for log in studyLogs {
+            let d = calendar.startOfDay(for: log.date)
+            result[d, default: 0] += log.amount
+        }
+        return result
+    }
+    
+    // 日付グループ化した記録（最新順）
+    private var groupedByDate: [(date: Date, entries: [(materialId: UUID, materialName: String, total: Int, unit: String)])] {
+        let materialIds = Set(materials.map(\.id))
+        let filtered = studyLogs.filter { materialIds.contains($0.materialId) }
+        let byDate = Dictionary(grouping: filtered) { calendar.startOfDay(for: $0.date) }
+        
+        return byDate.keys.sorted(by: >).map { date in
+            let logsForDate = byDate[date]!
+            let byMaterial = Dictionary(grouping: logsForDate, by: \.materialId)
+            let entries = byMaterial.compactMap { (materialId, logs) -> (materialId: UUID, materialName: String, total: Int, unit: String)? in
+                guard let material = materials.first(where: { $0.id == materialId }) else { return nil }
+                let total = logs.reduce(0) { $0 + $1.amount }
+                return (materialId: materialId, materialName: material.name, total: total, unit: material.unit)
+            }
+            .sorted { $0.materialName < $1.materialName }
+            return (date: date, entries: entries)
+        }
+    }
     
     private var monthTitle: String {
         let formatter = DateFormatter()
@@ -20,7 +59,6 @@ struct StudyCalendarView: View {
         let range = calendar.range(of: .day, in: .month, for: displayedMonth)!
         let firstDay = calendar.date(from: calendar.dateComponents([.year, .month], from: displayedMonth))!
         let firstWeekday = calendar.component(.weekday, from: firstDay)
-        // 月曜始まり: 月=0, 火=1, ..., 日=6
         let offset = (firstWeekday == 1) ? 6 : firstWeekday - 2
         
         var days: [Date?] = Array(repeating: nil, count: offset)
@@ -29,15 +67,10 @@ struct StudyCalendarView: View {
                 days.append(date)
             }
         }
-        // 末尾を7の倍数に揃える
         while days.count % 7 != 0 {
             days.append(nil)
         }
         return days
-    }
-    
-    private var today: Date {
-        calendar.startOfDay(for: Date())
     }
     
     private func isFuture(_ date: Date) -> Bool {
@@ -48,128 +81,188 @@ struct StudyCalendarView: View {
         calendar.startOfDay(for: date) == today
     }
     
-    private func studyAmount(for date: Date) -> Int {
-        heatmapData[calendar.startOfDay(for: date)] ?? 0
-    }
-    
     private func cellColor(for date: Date) -> Color {
-        let amount = studyAmount(for: date)
+        let amount = heatmapData[calendar.startOfDay(for: date)] ?? 0
         if amount == 0 { return Color(.systemGray5) }
         let maxVal = max(heatmapData.values.max() ?? 1, 1)
         let intensity = Double(amount) / Double(maxVal)
         return Color.blue.opacity(0.2 + intensity * 0.8)
     }
     
+    private func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ja_JP")
+        formatter.dateFormat = "M/d（E）"
+        return formatter.string(from: date)
+    }
+    
+    private func formatAmount(_ total: Int, unit: String) -> String {
+        if unit == "時間" {
+            let h = total / 60
+            let m = total % 60
+            if h > 0 && m > 0 { return "\(h)時間\(m)分" }
+            if h > 0 { return "\(h)時間" }
+            return "\(m)分"
+        }
+        return "\(total) \(unit)"
+    }
+    
     var body: some View {
         NavigationStack {
-            VStack(spacing: 20) {
-                // 月ナビゲーション
-                HStack {
-                    Button {
-                        withAnimation {
-                            displayedMonth = calendar.date(byAdding: .month, value: -1, to: displayedMonth) ?? displayedMonth
-                        }
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .font(.title3)
-                    }
-                    
-                    Spacer()
-                    
-                    Text(monthTitle)
-                        .font(.headline)
-                    
-                    Spacer()
-                    
-                    Button {
-                        let nextMonth = calendar.date(byAdding: .month, value: 1, to: displayedMonth) ?? displayedMonth
-                        if calendar.startOfDay(for: nextMonth) <= today {
-                            withAnimation {
-                                displayedMonth = nextMonth
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "chevron.right")
-                            .font(.title3)
-                    }
-                    .disabled({
-                        let nextMonth = calendar.date(byAdding: .month, value: 1, to: displayedMonth) ?? displayedMonth
-                        let nextMonthStart = calendar.date(from: calendar.dateComponents([.year, .month], from: nextMonth))!
-                        return nextMonthStart > today
-                    }())
-                }
-                .padding(.horizontal)
-                
-                // 曜日ヘッダー
-                let weekdays = ["月", "火", "水", "木", "金", "土", "日"]
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8) {
-                    ForEach(weekdays, id: \.self) { day in
-                        Text(day)
-                            .font(.caption)
-                            .fontWeight(.medium)
-                            .foregroundStyle(.secondary)
-                    }
-                    
-                    ForEach(0..<daysInMonth.count, id: \.self) { index in
-                        if let date = daysInMonth[index] {
+            List {
+                // カレンダーセクション
+                Section {
+                    VStack(spacing: 16) {
+                        // 月ナビゲーション
+                        HStack {
                             Button {
-                                if !isFuture(date) {
-                                    onSelectDate(date)
+                                withAnimation {
+                                    displayedMonth = calendar.date(byAdding: .month, value: -1, to: displayedMonth) ?? displayedMonth
                                 }
                             } label: {
-                                VStack(spacing: 2) {
-                                    Text("\(calendar.component(.day, from: date))")
-                                        .font(.subheadline)
-                                        .fontWeight(isToday(date) ? .bold : .regular)
-                                        .foregroundStyle(isFuture(date) ? .quaternary : .primary)
-                                    
-                                    RoundedRectangle(cornerRadius: 2)
-                                        .fill(isFuture(date) ? Color.clear : cellColor(for: date))
-                                        .frame(height: 4)
-                                }
-                                .frame(height: 40)
-                                .background(
-                                    isToday(date) ? Color.blue.opacity(0.1) : Color.clear
-                                )
-                                .clipShape(RoundedRectangle(cornerRadius: 6))
+                                Image(systemName: "chevron.left")
+                                    .font(.title3)
                             }
-                            .disabled(isFuture(date))
-                        } else {
-                            Color.clear
-                                .frame(height: 40)
+                            
+                            Spacer()
+                            
+                            Text(monthTitle)
+                                .font(.headline)
+                            
+                            Spacer()
+                            
+                            Button {
+                                let nextMonth = calendar.date(byAdding: .month, value: 1, to: displayedMonth) ?? displayedMonth
+                                let nextMonthStart = calendar.date(from: calendar.dateComponents([.year, .month], from: nextMonth))!
+                                if nextMonthStart <= today {
+                                    withAnimation { displayedMonth = nextMonth }
+                                }
+                            } label: {
+                                Image(systemName: "chevron.right")
+                                    .font(.title3)
+                            }
+                            .disabled({
+                                let nextMonth = calendar.date(byAdding: .month, value: 1, to: displayedMonth) ?? displayedMonth
+                                let nextMonthStart = calendar.date(from: calendar.dateComponents([.year, .month], from: nextMonth))!
+                                return nextMonthStart > today
+                            }())
+                        }
+                        
+                        // 曜日ヘッダー + カレンダー
+                        let weekdays = ["月", "火", "水", "木", "金", "土", "日"]
+                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8) {
+                            ForEach(weekdays, id: \.self) { day in
+                                Text(day)
+                                    .font(.caption)
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(.secondary)
+                            }
+                            
+                            ForEach(0..<daysInMonth.count, id: \.self) { index in
+                                if let date = daysInMonth[index] {
+                                    Button {
+                                        if !isFuture(date) { onSelectDate(date) }
+                                    } label: {
+                                        VStack(spacing: 2) {
+                                            Text("\(calendar.component(.day, from: date))")
+                                                .font(.subheadline)
+                                                .fontWeight(isToday(date) ? .bold : .regular)
+                                                .foregroundStyle(isFuture(date) ? .quaternary : .primary)
+                                            
+                                            RoundedRectangle(cornerRadius: 2)
+                                                .fill(isFuture(date) ? Color.clear : cellColor(for: date))
+                                                .frame(height: 4)
+                                        }
+                                        .frame(height: 40)
+                                        .background(isToday(date) ? Color.blue.opacity(0.1) : Color.clear)
+                                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                                    }
+                                    .disabled(isFuture(date))
+                                } else {
+                                    Color.clear.frame(height: 40)
+                                }
+                            }
+                        }
+                    }
+                    .gesture(
+                        DragGesture()
+                            .onEnded { value in
+                                if value.translation.width < -50 {
+                                    let nextMonth = calendar.date(byAdding: .month, value: 1, to: displayedMonth) ?? displayedMonth
+                                    let nextMonthStart = calendar.date(from: calendar.dateComponents([.year, .month], from: nextMonth))!
+                                    if nextMonthStart <= today {
+                                        withAnimation { displayedMonth = nextMonth }
+                                    }
+                                } else if value.translation.width > 50 {
+                                    withAnimation {
+                                        displayedMonth = calendar.date(byAdding: .month, value: -1, to: displayedMonth) ?? displayedMonth
+                                    }
+                                }
+                            }
+                    )
+                }
+                
+                // 記録追加ボタン
+                Section {
+                    Button {
+                        showAddLog = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                                .foregroundStyle(.blue)
+                            Text("学習記録を登録")
+                                .foregroundStyle(.primary)
                         }
                     }
                 }
-                .padding(.horizontal)
                 
-                Spacer()
-            }
-            .padding(.top)
-            .gesture(
-                DragGesture()
-                    .onEnded { value in
-                        if value.translation.width < -50 {
-                            let nextMonth = calendar.date(byAdding: .month, value: 1, to: displayedMonth) ?? displayedMonth
-                            let nextMonthStart = calendar.date(from: calendar.dateComponents([.year, .month], from: nextMonth))!
-                            if nextMonthStart <= today {
-                                withAnimation {
-                                    displayedMonth = nextMonth
+                // 学習記録リスト
+                ForEach(groupedByDate, id: \.date) { group in
+                    Section(header: Text(formatDate(group.date))) {
+                        ForEach(group.entries, id: \.materialId) { entry in
+                            Button {
+                                onSelectDate(group.date)
+                            } label: {
+                                HStack {
+                                    Text(entry.materialName)
+                                        .font(.subheadline)
+                                        .foregroundStyle(.primary)
+                                    Spacer()
+                                    Text(formatAmount(entry.total, unit: entry.unit))
+                                        .font(.subheadline)
+                                        .foregroundStyle(.secondary)
                                 }
-                            }
-                        } else if value.translation.width > 50 {
-                            withAnimation {
-                                displayedMonth = calendar.date(byAdding: .month, value: -1, to: displayedMonth) ?? displayedMonth
                             }
                         }
                     }
-            )
+                }
+            }
+            .listStyle(.insetGrouped)
             .navigationTitle("学習カレンダー")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("閉じる") { dismiss() }
+                    Button("閉じる") {
+                        onUpdate()
+                        dismiss()
+                    }
                 }
             }
+            .sheet(isPresented: $showAddLog) {
+                AddStudyLogView(materials: materials) {
+                    fetchStudyLogs()
+                }
+            }
+            .onAppear {
+                fetchStudyLogs()
+            }
         }
+    }
+    
+    private func fetchStudyLogs() {
+        let materialIds = materials.map(\.id)
+        let descriptor = FetchDescriptor<StudyLog>(sortBy: [SortDescriptor(\.date, order: .reverse)])
+        let allLogs = (try? modelContext.fetch(descriptor)) ?? []
+        studyLogs = allLogs.filter { materialIds.contains($0.materialId) }
     }
 }

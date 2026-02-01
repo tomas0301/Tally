@@ -1,17 +1,3 @@
 {
-  "allowedTools": [
-    "Bash(xcodebuild:*)",
-    "Bash(xcodegen:*)",
-    "Bash(git:*)",
-    "Bash(gh:*)",
-    "Bash(mkdir:*)",
-    "Bash(mv:*)",
-    "Bash(rm:*)",
-    "Bash(ls:*)",
-    "Bash(brew:*)",
-    "Bash(which:*)",
-    "Bash(swift:*)",
-    "Write",
-    "Edit"
-  ]
+  "allowedTools": []
 }
