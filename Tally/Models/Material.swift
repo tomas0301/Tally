@@ -10,6 +10,9 @@ final class Material {
     var currentProgress: Int = 0
     var unit: String = "ページ" // "ページ" or "問" or "時間"
     var dailyQuota: Int = 0
+    var quotaMode: String = "manual" // "auto" or "manual"
+    var deadline: Date? = nil
+    var useWeeklyTarget: Bool = false
     var order: Int = 0
     var createdAt: Date = Date()
     

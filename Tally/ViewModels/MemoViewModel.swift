@@ -72,7 +72,17 @@ final class MemoViewModel {
         let descriptor = FetchDescriptor<Material>(predicate: #Predicate { $0.qualificationId == qId })
         return (try? modelContext.fetch(descriptor)) ?? []
     }
-    
+
+    func latestStudyLogMaterialId(for qualificationId: UUID?) -> UUID? {
+        guard let qId = qualificationId else { return nil }
+        let materialDescriptor = FetchDescriptor<Material>(predicate: #Predicate { $0.qualificationId == qId })
+        let mats = (try? modelContext.fetch(materialDescriptor)) ?? []
+        let matIds = Set(mats.map(\.id))
+        let logDescriptor = FetchDescriptor<StudyLog>(sortBy: [SortDescriptor(\.date, order: .reverse)])
+        let allLogs = (try? modelContext.fetch(logDescriptor)) ?? []
+        return allLogs.first(where: { matIds.contains($0.materialId) })?.materialId
+    }
+
     private func save() {
         try? modelContext.save()
     }

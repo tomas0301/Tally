@@ -48,20 +48,26 @@ final class HomeViewModel {
     
     // MARK: - Material CRUD
     
-    func addMaterial(name: String, totalAmount: Int, unit: String, dailyQuota: Int) {
+    func addMaterial(name: String, totalAmount: Int, unit: String, dailyQuota: Int, quotaMode: String = "manual", deadline: Date? = nil, useWeeklyTarget: Bool = false) {
         guard let qId = selectedQualification?.id else { return }
         let order = materials.count
         let material = Material(qualificationId: qId, name: name, totalAmount: totalAmount, unit: unit, dailyQuota: dailyQuota, order: order)
+        material.quotaMode = quotaMode
+        material.deadline = deadline
+        material.useWeeklyTarget = useWeeklyTarget
         modelContext.insert(material)
         save()
         fetchMaterials()
     }
     
-    func updateMaterial(_ material: Material, name: String, totalAmount: Int, unit: String, dailyQuota: Int) {
+    func updateMaterial(_ material: Material, name: String, totalAmount: Int, unit: String, dailyQuota: Int, quotaMode: String = "manual", deadline: Date? = nil, useWeeklyTarget: Bool = false) {
         material.name = name
         material.totalAmount = totalAmount
         material.unit = unit
         material.dailyQuota = dailyQuota
+        material.quotaMode = quotaMode
+        material.deadline = deadline
+        material.useWeeklyTarget = useWeeklyTarget
         save()
         fetchMaterials()
     }
@@ -146,15 +152,44 @@ final class HomeViewModel {
     // MARK: - Daily Quota
     
     func calculatedDailyQuota(for material: Material) -> Int {
-        guard selectedQualification?.quotaCalculationMode == "auto",
-              let daysLeft = daysUntilExam, daysLeft > 0,
-              let weeklyTarget = selectedQualification?.weeklyTargetDays, weeklyTarget > 0 else {
-            return material.dailyQuota
+        // Per-material auto mode
+        if material.quotaMode == "auto" {
+            let deadlineDate = material.deadline ?? selectedQualification?.examDate
+            guard let deadline = deadlineDate else { return material.dailyQuota }
+            let calendar = Calendar.current
+            let today = calendar.startOfDay(for: Date())
+            let target = calendar.startOfDay(for: deadline)
+            let daysLeft = calendar.dateComponents([.day], from: today, to: target).day ?? 0
+            guard daysLeft > 0 else { return material.remainingAmount }
+            let remaining = Double(material.remainingAmount)
+            if material.useWeeklyTarget {
+                let weeklyTarget = selectedQualification?.weeklyTargetDays ?? 7
+                let effectiveDays = max(1.0, Double(daysLeft) * Double(weeklyTarget) / 7.0)
+                return Int(ceil(remaining / effectiveDays))
+            } else {
+                return Int(ceil(remaining / Double(daysLeft)))
+            }
         }
-        let remaining = Double(material.remainingAmount)
-        let effectiveDays = Double(daysLeft) * Double(weeklyTarget) / 7.0
-        guard effectiveDays > 0 else { return material.dailyQuota }
-        return Int(ceil(remaining / effectiveDays))
+        // Legacy: qualification-level auto mode (backward compat)
+        if selectedQualification?.quotaCalculationMode == "auto" {
+            if let daysLeft = daysUntilExam, daysLeft > 0,
+               let weeklyTarget = selectedQualification?.weeklyTargetDays, weeklyTarget > 0 {
+                let remaining = Double(material.remainingAmount)
+                let effectiveDays = Double(daysLeft) * Double(weeklyTarget) / 7.0
+                if effectiveDays > 0 {
+                    return Int(ceil(remaining / effectiveDays))
+                }
+            }
+        }
+        return material.dailyQuota
+    }
+
+    func todayAmount(for material: Material) -> Int {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        return studyLogs
+            .filter { $0.materialId == material.id && calendar.startOfDay(for: $0.date) == today }
+            .reduce(0) { $0 + $1.amount }
     }
     
     // MARK: - Heatmap

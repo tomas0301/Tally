@@ -13,11 +13,12 @@ struct HomeView: View {
     @State private var editingMaterial: Material?
     @State private var showCalendar = false
     @State private var selectedDate: Date?
-    
+    @State private var showQuotaSettings = false
+
     private var qualification: Qualification? {
         qualificationVM.selectedQualification
     }
-    
+
     var body: some View {
         NavigationStack {
             Group {
@@ -43,14 +44,24 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $showAddMaterial) {
-                MaterialEditView(material: nil) { name, total, unit, quota in
-                    viewModel?.addMaterial(name: name, totalAmount: total, unit: unit, dailyQuota: quota)
-                }
+                MaterialEditView(
+                    material: nil,
+                    examDate: qualification?.examDate,
+                    weeklyTargetDays: qualification?.weeklyTargetDays ?? 4,
+                    onSave: { name, total, unit, quota, quotaMode, deadline, useWeeklyTarget in
+                        viewModel?.addMaterial(name: name, totalAmount: total, unit: unit, dailyQuota: quota, quotaMode: quotaMode, deadline: deadline, useWeeklyTarget: useWeeklyTarget)
+                    }
+                )
             }
             .sheet(item: $editingMaterial) { material in
-                MaterialEditView(material: material) { name, total, unit, quota in
-                    viewModel?.updateMaterial(material, name: name, totalAmount: total, unit: unit, dailyQuota: quota)
-                }
+                MaterialEditView(
+                    material: material,
+                    examDate: qualification?.examDate,
+                    weeklyTargetDays: qualification?.weeklyTargetDays ?? 4,
+                    onSave: { name, total, unit, quota, quotaMode, deadline, useWeeklyTarget in
+                        viewModel?.updateMaterial(material, name: name, totalAmount: total, unit: unit, dailyQuota: quota, quotaMode: quotaMode, deadline: deadline, useWeeklyTarget: useWeeklyTarget)
+                    }
+                )
             }
             .sheet(isPresented: $showCalendar) {
                 if let viewModel {
@@ -69,6 +80,17 @@ struct HomeView: View {
                     }
                 }
             }
+            .sheet(isPresented: $showQuotaSettings) {
+                if let viewModel {
+                    QuotaSettingsView(
+                        materials: viewModel.materials,
+                        qualification: qualification,
+                        onUpdate: {
+                            viewModel.load(for: qualification)
+                        }
+                    )
+                }
+            }
         }
         .onAppear {
             if viewModel == nil {
@@ -80,7 +102,7 @@ struct HomeView: View {
             viewModel?.load(for: qualification)
         }
     }
-    
+
     private var emptyStateView: some View {
         VStack(spacing: 16) {
             Spacer()
@@ -99,7 +121,7 @@ struct HomeView: View {
         }
         .padding()
     }
-    
+
     private func mainContentView(viewModel: HomeViewModel) -> some View {
         ScrollView {
             VStack(spacing: 16) {
@@ -107,14 +129,18 @@ struct HomeView: View {
                     daysUntilExam: viewModel.daysUntilExam,
                     onSetExamDate: {}
                 )
-                
+
                 DailyQuotaView(
                     quotas: viewModel.materials.map { material in
                         let quota = viewModel.calculatedDailyQuota(for: material)
-                        return (name: material.name, amount: quota, unit: material.unit)
+                        let today = viewModel.todayAmount(for: material)
+                        return (name: material.name, todayAmount: today, quota: quota, unit: material.unit)
+                    },
+                    onTap: {
+                        showQuotaSettings = true
                     }
                 )
-                
+
                 VStack(spacing: 16) {
                     ForEach(viewModel.materials, id: \.id) { material in
                         MaterialProgressView(material: material) { amount in
@@ -138,13 +164,13 @@ struct HomeView: View {
                 .background(Color(.systemBackground))
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
-                
+
                 StreakView(
                     streak: viewModel.currentStreak,
                     weeklyStudyDays: viewModel.weeklyStudyDays,
                     weeklyTargetDays: qualification?.weeklyTargetDays ?? 4
                 )
-                
+
                 HeatmapView(data: viewModel.heatmapData()) {
                     showCalendar = true
                 }

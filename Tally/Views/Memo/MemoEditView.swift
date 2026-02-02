@@ -6,12 +6,14 @@ struct MemoEditView: View {
     
     let materials: [Material]
     let onSave: (String, UUID?, [UIImage]) -> Void
-    
+    var defaultMaterialId: UUID? = nil
+
     @State private var content: String = ""
     @State private var selectedMaterialId: UUID?
     @State private var selectedPhotos: [PhotosPickerItem] = []
     @State private var images: [UIImage] = []
-    
+    @FocusState private var isContentFocused: Bool
+
     var isValid: Bool {
         !content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
@@ -22,6 +24,7 @@ struct MemoEditView: View {
                 Section("メモ") {
                     TextEditor(text: $content)
                         .frame(minHeight: 120)
+                        .focused($isContentFocused)
                 }
                 
                 Section("教材（任意）") {
@@ -90,6 +93,12 @@ struct MemoEditView: View {
                             images.append(uiImage)
                         }
                     }
+                }
+            }
+            .onAppear {
+                isContentFocused = true
+                if selectedMaterialId == nil {
+                    selectedMaterialId = defaultMaterialId
                 }
             }
         }

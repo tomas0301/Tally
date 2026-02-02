@@ -28,7 +28,9 @@
 		A358EE891AA781FB68DF0B30 /* Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5092567AFDF3AB009FB81884 /* Material.swift */; };
 		B2A53A575B4701E74896A2B4 /* StudyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C52EBB3F0E81C12C1E8EC4 /* StudyLog.swift */; };
 		B8F118CAF35FA8B7442A84B8 /* QualificationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF684D90E17EA3F056137355 /* QualificationEditView.swift */; };
+		BF9682DB71350CBD717735AD /* QuotaSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB82D3449D993480A527E507 /* QuotaSettingsView.swift */; };
 		C93649C4AA10EBDCBEB1FC93 /* MemoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1756A43501A45998F7207AC7 /* MemoListView.swift */; };
+		CAC504D0040AF227E7462617 /* MaterialQuotaEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623350CEC17FBF79D51AD754 /* MaterialQuotaEditView.swift */; };
 		CD10B25C8A7B59023774C557 /* StudyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F4600D4FF64E6E233DF3E9 /* StudyCalendarView.swift */; };
 		D2D47FE492168B5BD5332232 /* TallyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C459C89EA7705BE5561E7FB8 /* TallyApp.swift */; };
 		D7EE5F4D73DF8AC3CA326A7A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FCE09AE18EE3B81AA586A /* MainTabView.swift */; };
@@ -54,6 +56,7 @@
 		4DCF1A5BC6FA366C4B658D35 /* Tally.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Tally.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5092567AFDF3AB009FB81884 /* Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
 		5404C4AD82109317F796EAA4 /* DailyQuotaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuotaView.swift; sourceTree = "<group>"; };
+		623350CEC17FBF79D51AD754 /* MaterialQuotaEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialQuotaEditView.swift; sourceTree = "<group>"; };
 		6342E892EBE5BEB778A07EE4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		67F4600D4FF64E6E233DF3E9 /* StudyCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyCalendarView.swift; sourceTree = "<group>"; };
 		74401E97C62534DACB7AD673 /* HeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatmapView.swift; sourceTree = "<group>"; };
@@ -61,6 +64,7 @@
 		8DF8182A8171176884646686 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		A151098FC7BEB07A05F3220F /* Qualification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Qualification.swift; sourceTree = "<group>"; };
 		A73FCE09AE18EE3B81AA586A /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		AB82D3449D993480A527E507 /* QuotaSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaSettingsView.swift; sourceTree = "<group>"; };
 		AD589A3568173F8E3F2453D2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AF684D90E17EA3F056137355 /* QualificationEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualificationEditView.swift; sourceTree = "<group>"; };
 		B4E5B68AB6853B3F0D62E901 /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 				74401E97C62534DACB7AD673 /* HeatmapView.swift */,
 				6342E892EBE5BEB778A07EE4 /* HomeView.swift */,
 				3DE46420EF81B784117986E7 /* MaterialProgressView.swift */,
+				623350CEC17FBF79D51AD754 /* MaterialQuotaEditView.swift */,
+				AB82D3449D993480A527E507 /* QuotaSettingsView.swift */,
 				67F4600D4FF64E6E233DF3E9 /* StudyCalendarView.swift */,
 			);
 			path = Home;
@@ -301,6 +307,7 @@
 				A358EE891AA781FB68DF0B30 /* Material.swift in Sources */,
 				495CB4C7E5E53D9F4441D5BA /* MaterialEditView.swift in Sources */,
 				9A35300114C1EB8298E8D8FC /* MaterialProgressView.swift in Sources */,
+				CAC504D0040AF227E7462617 /* MaterialQuotaEditView.swift in Sources */,
 				6C7FCF7589604BAB92582AB0 /* Memo.swift in Sources */,
 				21917687CC2271DBDE7CD0C9 /* MemoEditView.swift in Sources */,
 				22B5F54134767EE68B91C072 /* MemoImage.swift in Sources */,
@@ -312,6 +319,7 @@
 				B8F118CAF35FA8B7442A84B8 /* QualificationEditView.swift in Sources */,
 				258C5355B5C52F2AFEE36A99 /* QualificationManagementView.swift in Sources */,
 				F3F482C0B348B8EE683E9A9F /* QualificationViewModel.swift in Sources */,
+				BF9682DB71350CBD717735AD /* QuotaSettingsView.swift in Sources */,
 				FF6C3E328548A7270D83C745 /* SettingsView.swift in Sources */,
 				805F8E734965864110754965 /* StreakView.swift in Sources */,
 				CD10B25C8A7B59023774C557 /* StudyCalendarView.swift in Sources */,

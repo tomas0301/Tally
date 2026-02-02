@@ -49,7 +49,8 @@ struct MemoListView: View {
                         materials: viewModel.materials(for: qId),
                         onSave: { content, materialId, images in
                             viewModel.addMemo(qualificationId: qId, materialId: materialId, content: content, images: images)
-                        }
+                        },
+                        defaultMaterialId: viewModel.latestStudyLogMaterialId(for: qId)
                     )
                 }
             }
