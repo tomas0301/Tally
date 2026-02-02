@@ -38,6 +38,7 @@
 		E116762372C91847185E6769 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3A110C2438C4CC68E2AE17B /* Assets.xcassets */; };
 		E45968EF030B04DBEF497749 /* AddStudyLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6A0A0DB0ABD8695E63EE0 /* AddStudyLogView.swift */; };
 		F3F482C0B348B8EE683E9A9F /* QualificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E198B1697CA6C1851B4BAC /* QualificationViewModel.swift */; };
+		F9C36D4897B786FB760D4566 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0ED0B6E3174049A54C45EEC /* Theme.swift */; };
 		FF6C3E328548A7270D83C745 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0438430608549D75B2F651AE /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,7 @@
 		B4E5B68AB6853B3F0D62E901 /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 		B628A606FD1510EF531572FC /* MaterialEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialEditView.swift; sourceTree = "<group>"; };
 		BBED70CE377E174313833FE0 /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
+		C0ED0B6E3174049A54C45EEC /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		C2E198B1697CA6C1851B4BAC /* QualificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualificationViewModel.swift; sourceTree = "<group>"; };
 		C459C89EA7705BE5561E7FB8 /* TallyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TallyApp.swift; sourceTree = "<group>"; };
 		D3342FEB038008583E0E4503 /* MemoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRowView.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 		AC7FA6A0A93D4EFD1F9CC499 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C0ED0B6E3174049A54C45EEC /* Theme.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				CD10B25C8A7B59023774C557 /* StudyCalendarView.swift in Sources */,
 				B2A53A575B4701E74896A2B4 /* StudyLog.swift in Sources */,
 				D2D47FE492168B5BD5332232 /* TallyApp.swift in Sources */,
+				F9C36D4897B786FB760D4566 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,7 +420,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tally.Tally;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yoshiki.Tally;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
@@ -502,7 +506,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tally.Tally;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yoshiki.Tally;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
