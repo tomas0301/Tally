@@ -14,15 +14,10 @@ struct TallyApp: App {
             Memo.self,
             MemoImage.self
         ])
-        #if targetEnvironment(simulator)
-        let cloudKit: ModelConfiguration.CloudKitDatabase = .none
-        #else
-        let cloudKit: ModelConfiguration.CloudKitDatabase = .automatic
-        #endif
         let configuration = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false,
-            cloudKitDatabase: cloudKit
+            cloudKitDatabase: .automatic
         )
         do {
             container = try ModelContainer(for: schema, configurations: [configuration])
