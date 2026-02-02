@@ -16,14 +16,14 @@ struct MemoRowView: View {
                 Text(name)
                     .font(.caption)
                     .fontWeight(.medium)
-                    .foregroundStyle(.blue)
+                    .foregroundStyle(Theme.primary)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 2)
-                    .background(Color.blue.opacity(0.1))
+                    .background(Theme.primary.opacity(0.1))
                     .clipShape(Capsule())
             }
             
-            Text(memo.content)
+            Text(memo.content.replacingOccurrences(of: "\n", with: " "))
                 .font(.body)
                 .lineLimit(5)
             
@@ -43,10 +43,22 @@ struct MemoRowView: View {
                 }
             }
             
-            Text(memo.createdAt, format: .dateTime.month().day().hour().minute())
+            Text(dateString)
                 .font(.caption2)
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(Theme.textSecondary)
         }
-        .padding(.vertical, 4)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background(Theme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius))
+        .modifier(Theme.shadow())
+        .padding(.horizontal, 4)
+    }
+    
+    private var dateString: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E yyyy/MM/dd HH:mm"
+        formatter.locale = Locale(identifier: "en_US")
+        return formatter.string(from: memo.createdAt)
     }
 }
