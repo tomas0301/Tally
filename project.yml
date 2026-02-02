@@ -15,6 +15,11 @@ targets:
       - path: Tally
     entitlements:
       path: Tally/Tally.entitlements
+      properties:
+        com.apple.developer.icloud-services:
+          - CloudKit
+        com.apple.developer.icloud-container-identifiers:
+          - iCloud.com.yoshiki.Tally
     settings:
       base:
         DEVELOPMENT_TEAM: "6724KRX9W7"
