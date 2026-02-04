@@ -3,7 +3,7 @@ name: Tally
 options:
   bundleIdPrefix: com.yoshiki
   deploymentTarget:
-    iOS: "17.0"
+    iOS: "18.5"
   xcodeVersion: "16.4"
   generateEmptyDirectories: true
 
@@ -20,6 +20,9 @@ targets:
           - CloudKit
         com.apple.developer.icloud-container-identifiers:
           - iCloud.com.yoshiki.Tally
+        aps-environment: development
+        com.apple.security.application-groups:
+          - group.com.yoshiki.Tally
     settings:
       base:
         DEVELOPMENT_TEAM: "6724KRX9W7"
