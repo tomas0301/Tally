@@ -112,7 +112,7 @@ struct DailyStudyLogView: View {
             } label: {
                 Image(systemName: "trash")
                     .font(.caption)
-                    .foregroundStyle(.red)
+                    .foregroundStyle(Theme.accent)
             }
             .buttonStyle(.plain)
         }
@@ -152,7 +152,7 @@ struct DailyStudyLogView: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(.white)
                 .frame(width: 40, height: 28)
-                .background(Color.blue)
+                .background(Theme.primary)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
         }
         .buttonStyle(.plain)
@@ -176,11 +176,16 @@ struct DailyStudyLogView: View {
     private func addLog(material: Material, amount: Int) {
         let log = StudyLog(date: date, materialId: material.id, amount: amount)
         modelContext.insert(log)
-        
+
         // 日付に関係なく進捗を反映
         material.currentProgress = min(material.currentProgress + amount, material.totalAmount)
-        
-        try? modelContext.save()
+
+        do {
+            try modelContext.save()
+            print("✅ DailyStudyLogView: ログ追加成功 - \(material.name) +\(amount)")
+        } catch {
+            print("❌ DailyStudyLogView: ログ追加失敗 - \(error)")
+        }
         fetchLogs()
     }
     
@@ -201,8 +206,13 @@ struct DailyStudyLogView: View {
         if let material = materials.first(where: { $0.id == materialId }) {
             material.currentProgress = max(0, material.currentProgress - totalAmount)
         }
-        
-        try? modelContext.save()
+
+        do {
+            try modelContext.save()
+            print("✅ DailyStudyLogView: ログ削除成功")
+        } catch {
+            print("❌ DailyStudyLogView: ログ削除失敗 - \(error)")
+        }
         fetchLogs()
     }
     

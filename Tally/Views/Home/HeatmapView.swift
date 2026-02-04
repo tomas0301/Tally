@@ -59,9 +59,9 @@ struct HeatmapView: View {
     private func cellColor(for date: Date) -> Color {
         let level = intensity(for: date)
         if level == 0 {
-            return Color(.systemGray5)
+            return Color.gray.opacity(0.1)
         }
-        return Color.blue.opacity(0.2 + level * 0.8)
+        return Theme.primary.opacity(0.2 + level * 0.8)
     }
     
     var body: some View {
@@ -108,9 +108,9 @@ struct HeatmapView: View {
             }
         }
         .padding()
-        .background(Color(.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+        .background(Theme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius))
+        .modifier(Theme.shadow())
         .onTapGesture {
             onTap()
         }

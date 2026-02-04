@@ -22,9 +22,9 @@ struct StreakView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 12)
-            .background(Color(.systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+            .background(Theme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius))
+            .modifier(Theme.shadow())
             
             // 今週の学習日数
             VStack(spacing: 4) {
@@ -41,9 +41,9 @@ struct StreakView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 12)
-            .background(Color(.systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+            .background(Theme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius))
+            .modifier(Theme.shadow())
         }
     }
 }

@@ -1,0 +1,192 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -scheme Tally -destination "platform=iOS Simulator,name=iPhone 16" build
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'Tally' in project 'Tally' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache
+    cd /Users/yoshiki0528/Desktop/Tally/Tally.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -o /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache
+
+SwiftDriver Tally normal arm64 com.apple.xcode.tools.swift.compiler (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Tally -Onone -enforce-exclusivity\=checked @/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/Tally.SwiftFileList -DDEBUG -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios17.0-simulator -g -module-cache-path /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Index.noindex/DataStore -swift-version 6 -I /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Products/Debug-iphonesimulator -F /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Products/Debug-iphonesimulator -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache -output-file-map /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/Tally-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/Tally.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/Tally_const_extract_protocols.json -Xcc -iquote -Xcc /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Tally-generated-files.hmap -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Tally-own-target-headers.hmap -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Tally-all-target-headers.hmap -Xcc -iquote -Xcc /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Tally-project-headers.hmap -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/DerivedSources-normal/arm64 -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/DerivedSources/arm64 -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/Tally-Swift.h -working-directory /Users/yoshiki0528/Desktop/Tally -experimental-emit-module-separately -disable-cmo
+
+SwiftCompile normal arm64 Compiling\ DailyQuotaView.swift,\ DailyStudyLogView.swift,\ HeatmapView.swift,\ HomeView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Components/DailyQuotaView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/DailyStudyLogView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/HeatmapView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/HomeView.swift (in target 'Tally' from project 'Tally')
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Components/DailyQuotaView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/DailyStudyLogView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/HeatmapView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/HomeView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 Compiling\ AddStudyLogView.swift,\ AppSettings.swift,\ ContentView.swift,\ CountdownView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/AddStudyLogView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Models/AppSettings.swift /Users/yoshiki0528/Desktop/Tally/Tally/App/ContentView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Components/CountdownView.swift (in target 'Tally' from project 'Tally')
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/AddStudyLogView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Models/AppSettings.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/App/ContentView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Components/CountdownView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 Compiling\ MaterialEditView.swift,\ MaterialProgressView.swift,\ MaterialQuotaEditView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Material/MaterialEditView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/MaterialProgressView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/MaterialQuotaEditView.swift (in target 'Tally' from project 'Tally')
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Material/MaterialEditView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/MaterialProgressView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/MaterialQuotaEditView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 Compiling\ Memo.swift,\ MemoEditView.swift,\ MemoImage.swift /Users/yoshiki0528/Desktop/Tally/Tally/Models/Memo.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Memo/MemoEditView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Models/MemoImage.swift (in target 'Tally' from project 'Tally')
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Models/Memo.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Memo/MemoEditView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Models/MemoImage.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 Compiling\ QualificationManagementView.swift,\ QualificationViewModel.swift,\ QuotaSettingsView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Settings/QualificationManagementView.swift /Users/yoshiki0528/Desktop/Tally/Tally/ViewModels/QualificationViewModel.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/QuotaSettingsView.swift (in target 'Tally' from project 'Tally')
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Settings/QualificationManagementView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/ViewModels/QualificationViewModel.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/QuotaSettingsView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 Compiling\ ProgressBarView.swift,\ Qualification.swift,\ QualificationEditView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Components/ProgressBarView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Models/Qualification.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Settings/QualificationEditView.swift (in target 'Tally' from project 'Tally')
+Failed frontend command:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -c /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/AddStudyLogView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Models/AppSettings.swift /Users/yoshiki0528/Desktop/Tally/Tally/App/ContentView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Components/CountdownView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Components/DailyQuotaView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/DailyStudyLogView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/HeatmapView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/HomeView.swift /Users/yoshiki0528/Desktop/Tally/Tally/ViewModels/HomeViewModel.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/MainTabView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Models/Material.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Material/MaterialEditView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/MaterialProgressView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/MaterialQuotaEditView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Models/Memo.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Memo/MemoEditView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Models/MemoImage.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Memo/MemoListView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Memo/MemoRowView.swift /Users/yoshiki0528/Desktop/Tally/Tally/ViewModels/MemoViewModel.swift -primary-file /Users/yoshiki0528/Desktop/Tally/Tally/Components/ProgressBarView.swift -primary-file /Users/yoshiki0528/Desktop/Tally/Tally/Models/Qualification.swift -primary-file /Users/yoshiki0528/Desktop/Tally/Tally/Views/Settings/QualificationEditView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Settings/QualificationManagementView.swift /Users/yoshiki0528/Desktop/Tally/Tally/ViewModels/QualificationViewModel.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/QuotaSettingsView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Settings/SettingsView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Components/StreakView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/StudyCalendarView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Models/StudyLog.swift /Users/yoshiki0528/Desktop/Tally/Tally/App/TallyApp.swift /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/DerivedSources/GeneratedAssetSymbols.swift -supplementary-output-file-map /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/supplementaryOutputs-7 -target arm64-apple-ios17.0-simulator -Xllvm -aarch64-use-tbi -enable-objc-interop -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -I /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Products/Debug-iphonesimulator -F /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Products/Debug-iphonesimulator -no-color-diagnostics -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=4 -module-cache-path /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -swift-version 6 -enforce-exclusivity\=checked -Onone -D DEBUG -serialize-debugging-options -const-gather-protocols-file /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/Tally_const_extract_protocols.json -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Users/yoshiki0528/Desktop/Tally -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift -enable-anonymous-context-mangled-names -file-compilation-dir /Users/yoshiki0528/Desktop/Tally -Xcc -ivfsstatcache -Xcc /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Tally-generated-files.hmap -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Tally-own-target-headers.hmap -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Tally-all-target-headers.hmap -Xcc -iquote -Xcc /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Tally-project-headers.hmap -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/DerivedSources-normal/arm64 -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/DerivedSources/arm64 -Xcc -I/Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/DerivedSources -Xcc -DDEBUG\=1 -module-name Tally -frontend-parseable-output -disable-clang-spi -target-sdk-version 18.5 -target-sdk-name iphonesimulator18.5 -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/local/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server -in-process-plugin-server-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/lib/swift/host/plugins -o /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/ProgressBarView.o -o /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/Qualification.o -o /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/QualificationEditView.o -index-unit-output-path /Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/ProgressBarView.o -index-unit-output-path /Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/Qualification.o -index-unit-output-path /Tally.build/Debug-iphonesimulator/Tally.build/Objects-normal/arm64/QualificationEditView.o -index-store-path /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Index.noindex/DataStore -index-system-modules
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Components/ProgressBarView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+/Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/HomeView.swift:205:1: error: extraneous '}' at top level
+}
+^
+/Users/yoshiki0528/Desktop/Tally/Tally/Components/ProgressBarView.swift:7:49: error: cannot find 'Theme' in scope
+    init(progress: Double, accentColor: Color = Theme.primary) {
+                                                ^~~~~
+/Users/yoshiki0528/Desktop/Tally/Tally/Components/ProgressBarView.swift:21:38: error: cannot find 'Theme' in scope
+                            colors: [Theme.primary, Theme.secondary],
+                                     ^~~~~
+/Users/yoshiki0528/Desktop/Tally/Tally/Components/ProgressBarView.swift:21:53: error: cannot find 'Theme' in scope
+                            colors: [Theme.primary, Theme.secondary],
+                                                    ^~~~~
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Models/Qualification.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+/Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/HomeView.swift:205:1: error: extraneous '}' at top level
+}
+^
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Settings/QualificationEditView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+/Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/HomeView.swift:205:1: error: extraneous '}' at top level
+}
+^
+
+SwiftCompile normal arm64 Compiling\ MemoListView.swift,\ MemoRowView.swift,\ MemoViewModel.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Memo/MemoListView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Memo/MemoRowView.swift /Users/yoshiki0528/Desktop/Tally/Tally/ViewModels/MemoViewModel.swift (in target 'Tally' from project 'Tally')
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Memo/MemoListView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Memo/MemoRowView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/ViewModels/MemoViewModel.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ Tally (in target 'Tally' from project 'Tally')
+
+EmitSwiftModule normal arm64 (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 Compiling\ HomeViewModel.swift,\ MainTabView.swift,\ Material.swift /Users/yoshiki0528/Desktop/Tally/Tally/ViewModels/HomeViewModel.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/MainTabView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Models/Material.swift (in target 'Tally' from project 'Tally')
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/ViewModels/HomeViewModel.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/MainTabView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Models/Material.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 Compiling\ SettingsView.swift,\ StreakView.swift,\ StudyCalendarView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Settings/SettingsView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Components/StreakView.swift /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/StudyCalendarView.swift (in target 'Tally' from project 'Tally')
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Settings/SettingsView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Components/StreakView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 /Users/yoshiki0528/Desktop/Tally/Tally/Views/Home/StudyCalendarView.swift (in target 'Tally' from project 'Tally')
+    cd /Users/yoshiki0528/Desktop/Tally
+    
+
+SwiftCompile normal arm64 Compiling\ StudyLog.swift,\ TallyApp.swift,\ GeneratedAssetSymbols.swift /Users/yoshiki0528/Desktop/Tally/Tally/Models/StudyLog.swift /Users/yoshiki0528/Desktop/Tally/Tally/App/TallyApp.swift /Users/yoshiki0528/Library/Developer/Xcode/DerivedData/Tally-gjttizbgmujtpsaejmddglzoredk/Build/Intermediates.noindex/Tally.build/Debug-iphonesimulator/Tally.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'Tally' from project 'Tally')
+Command SwiftCompile failed with a nonzero exit code
+

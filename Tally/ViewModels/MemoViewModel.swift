@@ -84,6 +84,11 @@ final class MemoViewModel {
     }
 
     private func save() {
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+            print("✅ MemoViewModel: 保存成功")
+        } catch {
+            print("❌ MemoViewModel: 保存失敗 - \(error)")
+        }
     }
 }

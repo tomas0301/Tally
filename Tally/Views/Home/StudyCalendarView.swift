@@ -88,7 +88,7 @@ struct StudyCalendarView: View {
         if amount == 0 { return Color(.systemGray5) }
         let maxVal = max(heatmapData.values.max() ?? 1, 1)
         let intensity = Double(amount) / Double(maxVal)
-        return Color.blue.opacity(0.2 + intensity * 0.8)
+        return Theme.primary.opacity(0.2 + intensity * 0.8)
     }
 
     private func formatDate(_ date: Date) -> String {
@@ -128,7 +128,7 @@ struct StudyCalendarView: View {
                         } label: {
                             HStack {
                                 Image(systemName: "plus.circle.fill")
-                                    .foregroundStyle(.blue)
+                                    .foregroundStyle(Theme.primary)
                                 Text("学習記録を登録")
                                     .foregroundStyle(.primary)
                                 Spacer()
@@ -272,7 +272,7 @@ struct StudyCalendarView: View {
                                     }
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 36)
-                                    .background(isToday(date) ? Color.blue.opacity(0.1) : Color.clear)
+                                    .background(isToday(date) ? Theme.primary.opacity(0.1) : Color.clear)
                                     .clipShape(RoundedRectangle(cornerRadius: 6))
                                 }
                                 .disabled(isFuture(date))

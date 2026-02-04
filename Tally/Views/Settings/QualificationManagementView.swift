@@ -11,7 +11,7 @@ struct QualificationManagementView: View {
                 if let selected = qualificationVM.selectedQualification {
                     HStack {
                         Image(systemName: "checkmark.circle.fill")
-                            .foregroundStyle(.blue)
+                            .foregroundStyle(Theme.primary)
                         Text(selected.name)
                             .fontWeight(.semibold)
                     }
@@ -28,7 +28,7 @@ struct QualificationManagementView: View {
                     } label: {
                         HStack {
                             Image(systemName: q.isSelected ? "checkmark.circle.fill" : "circle")
-                                .foregroundStyle(q.isSelected ? .blue : .secondary)
+                                .foregroundStyle(q.isSelected ? Theme.primary : .secondary)
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(q.name)
                                     .foregroundStyle(.primary)

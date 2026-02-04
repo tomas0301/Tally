@@ -210,6 +210,11 @@ final class HomeViewModel {
     }
     
     private func save() {
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+            print("✅ HomeViewModel: 保存成功")
+        } catch {
+            print("❌ HomeViewModel: 保存失敗 - \(error)")
+        }
     }
 }

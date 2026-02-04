@@ -114,6 +114,11 @@ final class QualificationViewModel {
     }
     
     private func save() {
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+            print("✅ QualificationViewModel: 保存成功")
+        } catch {
+            print("❌ QualificationViewModel: 保存失敗 - \(error)")
+        }
     }
 }

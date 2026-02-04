@@ -104,22 +104,40 @@ struct HomeView: View {
     }
 
     private var emptyStateView: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 24) {
             Spacer()
-            Image(systemName: "book.closed")
-                .font(.system(size: 48))
-                .foregroundStyle(.secondary)
-            Text("教材を追加して\n学習を始めましょう")
-                .font(.headline)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(.secondary)
-            Button("教材を追加") {
-                showAddMaterial = true
+            Image(systemName: "book.closed.circle.fill")
+                .font(.system(size: 80))
+                .foregroundStyle(Theme.primary.opacity(0.2))
+            
+            VStack(spacing: 8) {
+                Text("教材がありません")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Theme.textPrimary)
+                
+                Text("教材を追加して\n学習を始めましょう")
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(Theme.textSecondary)
             }
-            .buttonStyle(.borderedProminent)
+            
+            Button {
+                showAddMaterial = true
+            } label: {
+                Text("教材を追加")
+                    .fontWeight(.semibold)
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 12)
+                    .background(Theme.primary)
+                    .foregroundColor(.white)
+                    .clipShape(Capsule())
+                    .shadow(color: Theme.primary.opacity(0.3), radius: 8, x: 0, y: 4)
+            }
             Spacer()
         }
         .padding()
+        .background(Theme.background)
     }
 
     private func mainContentView(viewModel: HomeViewModel) -> some View {
@@ -158,12 +176,16 @@ struct HomeView: View {
                                 Label("削除", systemImage: "trash")
                             }
                         }
+                        
+                        if material.id != viewModel.materials.last?.id {
+                            Divider()
+                        }
                     }
                 }
                 .padding()
-                .background(Color(.systemBackground))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+                .background(Theme.surface)
+                .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius))
+                .modifier(Theme.shadow())
 
                 StreakView(
                     streak: viewModel.currentStreak,
@@ -177,6 +199,6 @@ struct HomeView: View {
             }
             .padding()
         }
-        .background(Color(.systemGroupedBackground))
+        .background(Theme.background)
     }
 }

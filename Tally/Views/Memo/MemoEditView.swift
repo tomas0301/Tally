@@ -60,7 +60,7 @@ struct MemoEditView: View {
                                         } label: {
                                             Image(systemName: "xmark.circle.fill")
                                                 .font(.caption)
-                                                .foregroundStyle(.white, .red)
+                                                .foregroundStyle(.white, Theme.accent)
                                         }
                                         .offset(x: 4, y: -4)
                                     }

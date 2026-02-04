@@ -104,7 +104,7 @@ struct MaterialQuotaEditView: View {
                         Spacer()
                         Text(formatPreview(autoQuotaPreview))
                             .fontWeight(.semibold)
-                            .foregroundStyle(.blue)
+                            .foregroundStyle(Theme.primary)
                     }
                 }
             } else {

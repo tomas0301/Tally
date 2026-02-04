@@ -12,7 +12,7 @@ struct SettingsView: View {
                     } label: {
                         HStack {
                             Image(systemName: "graduationcap.fill")
-                                .foregroundStyle(.blue)
+                                .foregroundStyle(Theme.primary)
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("資格管理")
                                 if let name = qualificationVM.selectedQualification?.name {

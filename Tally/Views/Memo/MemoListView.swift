@@ -25,6 +25,8 @@ struct MemoListView: View {
                 }
             }
             .navigationTitle("メモ")
+            .background(Theme.background)
+            .navigationBarTitleDisplayMode(.inline)
             .overlay(alignment: .bottomTrailing) {
                 if qualificationId != nil {
                     Button {
@@ -35,9 +37,9 @@ struct MemoListView: View {
                             .fontWeight(.semibold)
                             .foregroundStyle(.white)
                             .frame(width: 56, height: 56)
-                            .background(Color.blue)
+                            .background(Theme.primary)
                             .clipShape(Circle())
-                            .shadow(color: .black.opacity(0.2), radius: 4, y: 2)
+                            .shadow(color: Theme.primary.opacity(0.3), radius: 8, x: 0, y: 4)
                     }
                     .padding(.trailing, 20)
                     .padding(.bottom, 20)
@@ -67,24 +69,28 @@ struct MemoListView: View {
     }
     
     private var emptyStateView: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 24) {
             Spacer()
             Image(systemName: "note.text")
-                .font(.system(size: 48))
-                .foregroundStyle(.secondary)
+                .font(.system(size: 80))
+                .foregroundStyle(Theme.primary.opacity(0.2))
             Text("学習メモを残して\n気づきを記録しましょう")
-                .font(.headline)
+                .font(.body)
                 .multilineTextAlignment(.center)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.textSecondary)
             Spacer()
         }
-        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Theme.background)
     }
     
     private func memoList(viewModel: MemoViewModel) -> some View {
         List {
             ForEach(viewModel.memos, id: \.id) { memo in
                 MemoRowView(memo: memo, materials: viewModel.materials(for: qualificationId), imageDataItems: viewModel.imagesForMemo(memo))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .padding(.bottom, 4)
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
                             viewModel.deleteMemo(memo)
@@ -95,5 +101,7 @@ struct MemoListView: View {
             }
         }
         .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
     }
 }

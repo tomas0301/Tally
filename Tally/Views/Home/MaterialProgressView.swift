@@ -85,7 +85,7 @@ struct ProgressButton: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(.white)
                 .frame(width: 40, height: 32)
-                .background(Color.blue)
+                .background(Theme.primary)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         }
         .buttonStyle(.plain)

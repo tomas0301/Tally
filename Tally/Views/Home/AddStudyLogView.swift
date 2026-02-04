@@ -89,7 +89,7 @@ struct AddStudyLogView: View {
                                     amount = 0
                                 }
                                 .font(.caption)
-                                .foregroundStyle(.red)
+                                .foregroundStyle(Theme.accent)
                                 Spacer()
                             }
                         }
@@ -127,7 +127,7 @@ struct AddStudyLogView: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(.white)
                 .frame(width: 48, height: 32)
-                .background(Color.blue)
+                .background(Theme.primary)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         }
         .buttonStyle(.plain)
@@ -135,11 +135,17 @@ struct AddStudyLogView: View {
     
     private func save() {
         guard let material = selectedMaterial, amount > 0 else { return }
-        
+
         let log = StudyLog(date: selectedDate, materialId: material.id, amount: amount)
         modelContext.insert(log)
         material.currentProgress = min(material.currentProgress + amount, material.totalAmount)
-        try? modelContext.save()
+
+        do {
+            try modelContext.save()
+            print("✅ AddStudyLogView: 保存成功 - \(material.name) +\(amount)")
+        } catch {
+            print("❌ AddStudyLogView: 保存失敗 - \(error)")
+        }
         onSave()
     }
     
