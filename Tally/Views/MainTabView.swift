@@ -5,10 +5,13 @@ struct MainTabView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var qualificationVM: QualificationViewModel?
     @State private var selectedTab: Int = 0
-    
+    @State private var isInitialLoading: Bool = true
+
     var body: some View {
         Group {
-            if let qualificationVM {
+            if isInitialLoading {
+                ProgressView()
+            } else if let qualificationVM {
                 if qualificationVM.qualifications.isEmpty {
                     noQualificationView
                 } else {
@@ -21,6 +24,11 @@ struct MainTabView: View {
         .onAppear {
             if qualificationVM == nil {
                 qualificationVM = QualificationViewModel(modelContext: modelContext)
+            }
+            // CloudKit同期を待つため少し遅延してから再フェッチ
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                qualificationVM?.fetchAll()
+                isInitialLoading = false
             }
         }
     }
