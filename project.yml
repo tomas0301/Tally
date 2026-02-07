@@ -19,6 +19,7 @@ targets:
         UIBackgroundModes:
           - remote-notification
         UILaunchScreen: {}
+        UIRequiresFullScreen: true
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
           UISceneConfigurations: {}
