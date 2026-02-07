@@ -18,6 +18,10 @@ targets:
       properties:
         UIBackgroundModes:
           - remote-notification
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations: {}
     entitlements:
       path: Tally/Tally.entitlements
       properties:
